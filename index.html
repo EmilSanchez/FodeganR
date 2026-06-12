@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fodegan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ====================================================
+     CONFIGURACIÓN — edita aquí cuando tengas tu dominio
+     ==================================================== */
+  /* (el enlace real se define más abajo en el <script>) */
+
+  :root{
+    --hill-deep:    #2f3e26;
+    --hill-mid:     #5a7a4a;
+    --hill-light:   #94ab78;
+    --field-glow:   #c9d6a8;
+    --sky-warm:     #f1e6c8;
+    --cream:        #f7f3e8;
+    --gold:         #d6a44e;
+    --ink:          #25301c;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family: 'Poppins', 'Poppins', sans-serif;
+    color: var(--cream);
+    background: var(--ink);
+    overflow:hidden;
+  }
+
+  .scene{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vh 6vw;
+    background: linear-gradient(180deg, var(--sky-warm) 0%, var(--field-glow) 38%, var(--hill-light) 60%, var(--hill-mid) 85%, var(--hill-deep) 100%);
+  }
+
+  /* Sol */
+  .sun-wrap{
+    position:absolute;
+    top:8%;
+    left:50%;
+    transform:translateX(-50%);
+    width:220px;
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .sun-rays{
+    position:absolute;
+    width:100%;
+    height:100%;
+    animation: spin 60s linear infinite;
+    opacity:0.55;
+  }
+
+  .sun{
+    position:relative;
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #fffdf2, var(--gold) 70%);
+    box-shadow: 0 0 90px 30px rgba(214,164,78,0.35);
+    animation: sunGlow 4s ease-in-out infinite;
+  }
+
+  @keyframes sunGlow{
+    0%, 100%{ box-shadow: 0 0 90px 30px rgba(214,164,78,0.35); transform:scale(1); }
+    50%{ box-shadow: 0 0 120px 45px rgba(214,164,78,0.5); transform:scale(1.035); }
+  }
+
+  @keyframes spin{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
+  /* Colinas en capas */
+  .hills{
+    position:absolute;
+    bottom:0; left:0;
+    width:100%;
+    height:60%;
+    pointer-events:none;
+  }
+  .hills svg{ width:100%; height:100%; display:block; }
+
+  /* Contenido central */
+  .content{
+    position:relative;
+    z-index:5;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.4rem;
+    max-width:560px;
+  }
+
+  .brand{
+    font-size: clamp(2.6rem, 9vw, 4.6rem);
+    letter-spacing: 0.02em;
+    font-weight:800;
+    color: var(--ink);
+    text-shadow: 0 2px 18px rgba(255,255,255,0.35);
+  }
+
+  .tagline{
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.95rem, 2.6vw, 1.15rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity:0.75;
+    font-weight:600;
+  }
+
+  .message{
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+    color: var(--cream);
+    background: rgba(47,62,38,0.55);
+    backdrop-filter: blur(2px);
+    border-radius: 14px;
+    padding: 1rem 1.4rem;
+    line-height:1.55;
+    max-width: 480px;
+  }
+
+  .cta{
+    margin-top:0.6rem;
+    display:inline-flex;
+    align-items:center;
+    gap:0.6rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    font-weight:700;
+    letter-spacing:0.04em;
+    color: var(--ink);
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.95rem 2.4rem;
+    text-decoration:none;
+    cursor:pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    box-shadow: 0 6px 0 var(--ink);
+    animation: floatBtn 3s ease-in-out infinite;
+  }
+
+  @keyframes floatBtn{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-10px); }
+  }
+
+  .cta:hover{
+    background: var(--gold);
+    box-shadow: 0 8px 0 var(--ink);
+  }
+
+  .cta:active{
+    box-shadow: 0 2px 0 var(--ink);
+  }
+
+  .footnote{
+    position:absolute;
+    bottom: 2.2vh;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform:uppercase;
+    color: var(--cream);
+    opacity:0.6;
+  }
+
+  /* Vaca pastando, silueta sencilla */
+  .cow{
+    position:absolute;
+    bottom: 10%;
+    width: 80px;
+    opacity:0.9;
+    transform-origin: 50% 100%;
+  }
+  .cow.c1{ left: 8%; width:70px; animation: graze 4.5s ease-in-out infinite; }
+  .cow.c2{ right: 10%; bottom: 6%; width:95px; transform: scaleX(-1); animation: graze2 5.5s ease-in-out infinite; }
+
+  @keyframes graze{
+    0%, 100%{ transform: translateY(0) rotate(0deg); }
+    20%{ transform: translateY(0) rotate(-3deg); }
+    40%{ transform: translateY(-3px) rotate(0deg); }
+    60%{ transform: translateY(0) rotate(-3deg); }
+    80%{ transform: translateY(0) rotate(0deg); }
+  }
+
+  @keyframes graze2{
+    0%, 100%{ transform: scaleX(-1) translateY(0) rotate(0deg); }
+    25%{ transform: scaleX(-1) translateY(0) rotate(3deg); }
+    50%{ transform: scaleX(-1) translateY(-4px) rotate(0deg); }
+    75%{ transform: scaleX(-1) translateY(0) rotate(3deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <div class="sun-wrap">
+    <svg class="sun-rays" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="var(--gold)" stroke-width="4" stroke-linecap="round" opacity="0.6">
+        <line x1="110" y1="6" x2="110" y2="34"/>
+        <line x1="110" y1="186" x2="110" y2="214"/>
+        <line x1="6" y1="110" x2="34" y2="110"/>
+        <line x1="186" y1="110" x2="214" y2="110"/>
+        <line x1="32" y1="32" x2="52" y2="52"/>
+        <line x1="168" y1="168" x2="188" y2="188"/>
+        <line x1="188" y1="32" x2="168" y2="52"/>
+        <line x1="52" y1="168" x2="32" y2="188"/>
+      </g>
+    </svg>
+    <div class="sun"></div>
+  </div>
+
+  <!-- Colinas -->
+  <div class="hills">
+    <svg viewBox="0 0 1200 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,260 C200,180 420,300 650,230 C880,160 1050,260 1200,210 L1200,500 L0,500 Z" fill="var(--hill-light)" opacity="0.0"/>
+      <path d="M0,300 C220,220 430,330 660,270 C890,210 1040,300 1200,250 L1200,500 L0,500 Z" fill="#7d9a63"/>
+      <path d="M0,360 C260,300 480,400 720,350 C940,310 1080,380 1200,340 L1200,500 L0,500 Z" fill="#5a7a4a"/>
+      <path d="M0,430 C240,390 500,460 760,420 C980,390 1100,440 1200,420 L1200,500 L0,500 Z" fill="#3d5530"/>
+    </svg>
+  </div>
+
+  <!-- Vacas decorativas -->
+  <svg class="cow c1" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" fill="#fdfaf2">
+    <ellipse cx="45" cy="38" rx="32" ry="16"/>
+    <circle cx="78" cy="28" r="13"/>
+    <rect x="20" y="46" width="6" height="12"/>
+    <rect x="38" y="48" width="6" height="12"/>
+    <rect x="58" y="48" width="6" height="12"/>
+    <rect x="68" y="46" width="6" height="12"/>
+    <ellipse cx="20" cy="32" rx="6" ry="9" fill="#3d3027"/>
+    <ellipse cx="55" cy="40" rx="7" ry="10" fill="#3d3027"/>
+  </svg>
+
+  <svg class="cow c2" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" fill="#fdfaf2">
+    <ellipse cx="45" cy="38" rx="32" ry="16"/>
+    <circle cx="78" cy="28" r="13"/>
+    <rect x="20" y="46" width="6" height="12"/>
+    <rect x="38" y="48" width="6" height="12"/>
+    <rect x="58" y="48" width="6" height="12"/>
+    <rect x="68" y="46" width="6" height="12"/>
+    <ellipse cx="35" cy="34" rx="8" ry="11" fill="#8a6a4a"/>
+  </svg>
+
+  <!-- Contenido -->
+  <div class="content">
+    <div class="brand">FODEGAN</div>
+    <div class="tagline">Invierte en el campo</div>
+
+    <div class="message">
+      Presiona el botón de abajo para ingresar directamente a la plataforma y acceder a tus oportunidades de inversión
+    </div>
+
+    <a id="ctaButton" class="cta" href="#" target="_blank" rel="noopener">
+      Ir a la plataforma →
+    </a>
+  </div>
+
+  <div class="footnote">Próximamente · Fodegan</div>
+</div>
+
+<script>
+  const PROJECT_URL = "https://www.fodegan.com";
+
+  document.getElementById("ctaButton").setAttribute("href", PROJECT_URL);
+</script>
+
+</body>
+</html>
